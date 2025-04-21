@@ -1,0 +1,15 @@
+name: sql database
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-output:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test-output
+        run: |
+          echo "Hello, World!"
+          echo "This is a test output."
