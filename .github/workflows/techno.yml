@@ -15,13 +15,13 @@ jobs:
           echo "This is a test output."
         
 remote-connect:
-    runs-on: ubuntu-latest
-    steps:
-      - name: show database connection details
-        run: |
-          echo "DB_HOST: ${{ secrets.DB_HOST }}"
-          echo "DB_USER: ${{ secrets.DB_USER }}"
-          echo "DB_PASSWORD: ${{ secrets.DB_PASSWORD }}"
-          echo "DB_NAME: ${{ secrets.DB_NAME }}"
-      - uses: action/checkout@v1
+  runs-on: ubuntu-latest
+  steps:
+    - name: show database connection details
+      run: |
+        echo "DB_HOST: ${{ secrets.DB_HOST }}"
+        echo "DB_USER: ${{ secrets.DB_USER }}"
+        echo "DB_PASSWORD: ${{ secrets.DB_PASSWORD }}"
+        echo "DB_NAME: ${{ secrets.DB_NAME }}"
+    - uses: action/checkout@v1
       run: mysql -h ${{ secrets.DB_HOST }} --port 3306 -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }}
