@@ -25,9 +25,9 @@ jobs:
           echo "DB_NAME: ${{ secrets.DB_NAME }}"
       - uses: actions/checkout@v1
       - name: connect to database
-        run: mysql -h ${{ secrets.DB_HOST }} --port 3306 -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }}
+        run: mysql -h ${{ secrets.DB_HOST }} --port 3306 -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }} -e  "show databases;"
       - name: run a sample sql on remote database
         run: |
-          mysql -h ${{ secrets.DB_HOST }} --port 3306 -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }} <<EOF
+          mysql -h ${{ secrets.DB_HOST }} --port 3306 -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }} -e "source /home/runner/work/techno/techno/sql/sample.sql;"
           SELECT * FROM users;
           EOF
