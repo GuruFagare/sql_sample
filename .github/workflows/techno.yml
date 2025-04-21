@@ -17,18 +17,11 @@ jobs:
 remote-connect:
     runs-on: ubuntu-latest
     steps:
-      - name: Connect to remote server
+      - name: show database connection details
+        run: |
+          echo "DB_HOST: ${{ secrets.DB_HOST }}"
+          echo "DB_USER: ${{ secrets.DB_USER }}"
+          echo "DB_PASSWORD: ${{ secrets.DB_PASSWORD }}"
+          echo "DB_NAME: ${{ secrets.DB_NAME }}"
       - uses: action/checkout@v1
-       env:
-        DB_HOST: ${{ secrets.DB_HOST }}
-        DB_USER: ${{ secrets.DB_USER }}
-        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        DB_NAME: ${{ secrets.DB_NAME }}
-      run: |
-        mkdir -p backup
-        mysqldump -h "$DB_HOST" --port 3306 -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > backup/${DB_NAME}_$(date +%F).sql
-      - name: Upload backup
-        uses: actions/upload-artifact@v1
-        with:
-          name: sql-backup
-          path: backup/${DB_NAME}_$(date +%F).sql
+      run: mysql -h ${{ secrets.DB_HOST }} -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }}
