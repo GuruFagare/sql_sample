@@ -26,3 +26,8 @@ jobs:
       - uses: actions/checkout@v1
       - name: connect to database
         run: mysql -h ${{ secrets.DB_HOST }} --port 3306 -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }}
+      - name: run a sample sql on remote database
+        run: |
+          mysql -h ${{ secrets.DB_HOST }} --port 3306 -u ${{ secrets.DB_USER }} -p${{ secrets.DB_PASSWORD }} ${{ secrets.DB_NAME }} <<EOF
+          SELECT * FROM users;
+          EOF
