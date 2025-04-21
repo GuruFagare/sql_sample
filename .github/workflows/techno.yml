@@ -14,7 +14,30 @@ jobs:
           echo "Hello, World!"
           echo "This is a test output."
         
-  remote-connect:
+remote-connect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connect to remote server
+      - uses: action/checkout@v1
+       env:
+        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_USER: ${{ secrets.DB_USER }}
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        DB_NAME: ${{ secrets.DB_NAME }}
+      run: |
+        mkdir -p backup
+        mysqldump -h "$DB_HOST" --port 3306 -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" > backup/${DB_NAME}_$(date +%F).sql
+      - name: Upload backup
+        uses: actions/upload-artifact@v1
+        with:
+          name: sql-backup
+          path: backup/${DB_NAME}_$(date +%F).sql
+
+
+
+
+
+        remote-connect:
     runs-on: ubuntu-latest
     steps:
       - name: remote-connect
